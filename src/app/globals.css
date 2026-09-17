@@ -108,7 +108,9 @@ h2 { font-size: clamp(32px, 5vw, 58px); line-height: 1.1; margin: 0 0 42px; whit
   .portrait-placeholder { margin-bottom: 40px; } 
   .scroll-cue { bottom: 35px; } 
   .content-section, .project-detail { padding: 60px 20px; } 
-  .facts-grid, .skill-list, .detail-meta, .image-placeholder-grid { grid-template-columns: 1fr; } 
+  .facts-grid, .skill-list { grid-template-columns: 1fr; gap: 16px; } 
+  .detail-meta { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .image-placeholder-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
   .skill-column { border-bottom: 1px solid var(--line); border-right: 0; min-height: auto; padding: 0 0 18px; } 
   .skill-column:last-child { border-bottom: 0; } 
   
