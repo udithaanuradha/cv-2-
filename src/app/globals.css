@@ -96,12 +96,13 @@ h2 { font-size: clamp(32px, 5vw, 58px); line-height: 1.1; margin: 0 0 42px; whit
 .lightbox-close { background: transparent; border: 0; color: #fff; cursor: pointer; font-size: 42px; line-height: 1; position: absolute; right: 24px; top: 18px; }
 @media (min-width: 850px) { .menu-toggle { display: none; } .desktop-nav { display: flex; } .site-header { position: sticky; top: 0; z-index: 4; } .hero { align-items: center; display: grid; gap: 8%; grid-template-columns: 42% 1fr; min-height: 720px; padding-top: 90px; } .portrait-placeholder { height: min(360px, 32vw); margin: 0; width: min(360px, 32vw); } .hero-copy { grid-column: 2; } .hero .scroll-cue { bottom: 55px; } }
 @media (max-width: 600px) { 
-  h2 { white-space: normal; }
-  .site-header { height: 86px; padding: 0 30px; } 
-  .hero { min-height: 730px; padding: 120px 30px 55px; } 
+  h1 { font-size: clamp(42px, 12vw, 58px); word-break: break-word; }
+  h2 { font-size: clamp(28px, 8vw, 42px); white-space: normal; word-break: break-word; }
+  .site-header { height: 86px; padding: 0 20px; } 
+  .hero { min-height: 730px; padding: 120px 20px 55px; } 
   .portrait-placeholder { margin-bottom: 62px; } 
   .scroll-cue { bottom: 35px; } 
-  .content-section, .project-detail { padding: 88px 30px; } 
+  .content-section, .project-detail { padding: 88px 20px; } 
   .facts-grid, .skill-list, .detail-meta, .image-placeholder-grid { grid-template-columns: 1fr; } 
   .skill-column { border-bottom: 1px solid var(--line); border-right: 0; min-height: auto; padding: 0 0 18px; } 
   .skill-column:last-child { border-bottom: 0; } 
@@ -118,8 +119,8 @@ h2 { font-size: clamp(32px, 5vw, 58px); line-height: 1.1; margin: 0 0 42px; whit
   .pdf-view-button { justify-content: center; width: 100%; } 
   .lightbox { padding: 12px; } 
   .lightbox-image { max-height: calc(100vh - 24px); max-width: calc(100vw - 24px); } 
-  .site-footer { padding-left: 30px; padding-right: 30px; } 
-  .hero-intro, .section-copy p, .timeline-item p, .project-card p, .award-row p, .contact-copy, .detail-summary, .detail-section > p:not(.section-label), .skill-column ul { font-size: 16.5px; line-height: 1.6; color: var(--text); } 
+  .site-footer { padding-left: 20px; padding-right: 20px; } 
+  .hero-intro, .section-copy p, .timeline-item p, .project-card p, .award-row p, .contact-copy, .detail-summary, .detail-section > p:not(.section-label), .skill-column ul { font-size: 16px; line-height: 1.6; color: var(--text); } 
   .facts-grid span, .timeline-item > span, .project-index, .award-row > span { font-size: 12px; } 
 }
 
