@@ -1,17 +1,32 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 
-const navigation = ["Summary", "Skills", "Research", "Writing", "Experience", "Certifications"];
+const navigation = ["Summary", "Skills", "Projects", "Experience", "Visits"];
 
 export default function Home() {
   const [isLight, setIsLight] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [selectedImage, setSelectedImage] = useState<{ src: string; alt: string } | null>(null);
+
+  useEffect(() => {
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setSelectedImage(null);
+    };
+    window.addEventListener("keydown", closeOnEscape);
+    return () => window.removeEventListener("keydown", closeOnEscape);
+  }, []);
 
   return (
     <main className={`portfolio-page${isLight ? " light-theme" : ""}`}>
       <header className="site-header">
         <a className="wordmark" href="#top">Aveesha Keshani<span>.</span></a>
+        
+        <nav className="desktop-nav" aria-label="Desktop navigation">
+          {navigation.map((item) => <a href={`#${item.toLowerCase()}`} key={item}>{item}</a>)}
+        </nav>
+
         <div className="header-actions">
           <button
             className="theme-toggle"
@@ -22,12 +37,26 @@ export default function Home() {
           >
             <span>{isLight ? "☾" : "☼"}</span>
           </button>
-          <button className="menu-toggle" type="button" aria-label="Open navigation"><i /><i /><i /></button>
+          <button 
+            className="menu-toggle" 
+            type="button" 
+            aria-label="Toggle navigation"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+          >
+            <i /><i /><i />
+          </button>
         </div>
       </header>
-      <nav className="mobile-menu" aria-label="Primary navigation">
-        {navigation.map((item) => <a href={`#${item.toLowerCase()}`} key={item}>{item}</a>)}
-      </nav>
+      
+      {isMenuOpen && (
+        <nav className="mobile-menu" aria-label="Primary navigation">
+          {navigation.map((item) => (
+            <a href={`#${item.toLowerCase()}`} key={item} onClick={() => setIsMenuOpen(false)}>
+              {item}
+            </a>
+          ))}
+        </nav>
+      )}
 
       <div className="content-wrap" id="top">
         <section className="hero" aria-labelledby="hero-title">
@@ -40,11 +69,11 @@ export default function Home() {
             priority
           />
           <div className="hero-copy">
-            <p className="greeting">Hi <span>👋</span></p>
+            <p className="greeting">Hi, I&apos;m <span>👋</span></p>
             <h1 id="hero-title">Aveesha<br />Keshani</h1>
             <p className="hero-role">Biological Science Professional</p>
             <p className="hero-intro">Motivated undergraduate pursuing a B.Sc. (General) Degree in Biological Science at the University of Sri Jayewardenepura, specializing in Chemistry, Microbiology and Zoology, with strong practical experience in analytical chemistry and microbiological laboratory techniques.</p>
-            <div className="hero-links"><a href="#research">View my research <span>↗</span></a><a href="#experience">Get in touch <span>↗</span></a></div>
+            <div className="hero-links"><a href="#projects">View my projects <span>↗</span></a><a href="#experience">Get in touch <span>↗</span></a></div>
           </div>
           <a className="scroll-cue" href="#summary" aria-label="Scroll to summary">↓</a>
         </section>
@@ -73,36 +102,102 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="content-section projects" id="research">
-          <p className="section-label">ACADEMIC PROJECTS &amp; RESEARCH</p>
-          <h2>Research I&apos;ve <em>conducted.</em></h2>
-          <div className="project-card"><span className="project-index">01</span><h3>Halophiles and Extremozymes</h3><p>Sample collected from salt pans in Hambantota and isolated halophiles and identified industrially important microorganisms such as amylase- and protease-producing bacteria.</p><a href="/projects/halophiles">View full details <span>↗</span></a></div>
+        <section className="content-section projects" id="projects">
+          <p className="section-label">ACADEMIC PROJECTS</p>
+          <h2>Academic <em>projects.</em></h2>
+          <div className="project-card"><span className="project-index">01</span><h3>Halophiles and Extremozymes</h3><p>Collected environmental samples from salt pans in Hambantota, Sri Lanka, to isolate halophilic microorganisms and screen them for industrially important amylase and protease enzymes.</p><a href="/projects/halophiles">View full details <span>↗</span></a></div>
           <div className="project-card"><span className="project-index">02</span><h3>Domestic Mushroom Cultivation</h3><p>Investigated domestic mushroom cultivation and spawn preparation as an industrial microbiology assignment.</p><a href="/projects/mushroom-cultivation">View full details <span>↗</span></a></div>
         </section>
 
-        <section className="content-section writing" id="writing">
-          <p className="section-label">SCIENTIFIC WRITING &amp; DOCUMENTATION</p>
-          <h2>Writing with <em>purpose.</em></h2>
-          <div className="timeline-item"><span>DOCUMENTATION</span><h3>Scientific report or publication</h3><p>Describe your research reports, literature reviews, laboratory records, or other scientific documents here.</p></div>
-          <div className="timeline-item"><span>COMMUNICATION</span><h3>Presentation or technical document</h3><p>Add conferences, posters, presentations, or technical communication experience here.</p></div>
-        </section>
+
 
         <section className="content-section experience" id="experience">
-          <p className="section-label">WORK EXPERIENCE &amp; EXTRA-CURRICULARS</p>
+          <p className="section-label">PRACTICAL TRAINING &amp; EXTRA-CURRICULARS</p>
           <h2>Where I&apos;ve <em>contributed.</em></h2>
-          <div className="timeline-item"><span>DATE — DATE</span><h3>Work experience or internship</h3><p>Organization, responsibilities, and contribution go here.</p></div>
-          <div className="timeline-item"><span>DATE — DATE</span><h3>Extra-curricular activity</h3><p>Society, volunteer role, leadership activity, or community contribution goes here.</p></div>
+          <div className="timeline-item">
+            <span>2022 — PRESENT</span>
+            <h3>Analytical Chemistry &amp; Microbiology Practicals</h3>
+            <div style={{ marginTop: '8px', lineHeight: '1.6' }}>
+              <ul style={{ paddingLeft: '20px', listStyleType: 'disc', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                <li><strong>Analytical Chemistry:</strong> Quantitative analysis using GC-MS, AAS, and UV–Visible spectrophotometry with calibration-based calculations.</li>
+                <li><strong>Pharmaceutical Syntheses:</strong> Conducted lab exercises involving assay, purity, and yield determination (organic synthesis of benzamide, preparation of acetanilide and p-nitroaniline).</li>
+                <li><strong>Nutritional Analysis:</strong> Analysis of Vitamin C in a capsule using iodometry, and Fe content in a capsule using AAS.</li>
+                <li><strong>Microbial Enzyme Production:</strong> Amylase and pectinase production using microbial cultures and agro-industrial substrates.</li>
+                <li><strong>Bioremediation:</strong> Isolating polythene degrading microbes (bacteria &amp; fungi) and analyzing the results using FTIR.</li>
+              </ul>
+            </div>
+          </div>
+          <div className="timeline-item">
+            <span>2022 — PRESENT</span>
+            <h3>Water Quality Analysis &amp; Fieldwork</h3>
+            <div style={{ marginTop: '8px', lineHeight: '1.6' }}>
+              <ul style={{ paddingLeft: '20px', listStyleType: 'disc', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                <li><strong>Lake Gregory, Nuwara Eliya:</strong> Analyzed DO, pH, conductivity, and alkalinity of water.</li>
+                <li><strong>Madunagala Hot Water Springs:</strong> Analyzed DO, pH, conductivity, alkalinity, temperature, along with plankton sampling and microbial identification.</li>
+                <li><strong>Ridiyagama Reservoir:</strong> Analyzed DO, pH, conductivity, alkalinity, temperature, and plankton sampling.</li>
+                <li><strong>Walawe River (Upstream &amp; Downstream):</strong> Analyzed DO, pH, conductivity, alkalinity, temperature, plankton sampling, Secchi depth &amp; Ruttner sampling.</li>
+                <li><strong>Morawala Beach, Negombo:</strong> Conducted comprehensive water quality parameter testing.</li>
+              </ul>
+            </div>
+          </div>
+          <div className="timeline-item">
+            <span>DATE — DATE</span>
+            <h3>IEEE Student Branch - EMBS</h3>
+            <p>University of Sri Jayewardenepura — Active member involved in the Engineering in Medicine and Biology Society (EMBS) activities and initiatives.</p>
+          </div>
         </section>
 
-        <section className="content-section awards" id="certifications">
-          <p className="section-label">CERTIFICATIONS &amp; WORKSHOPS</p>
-          <h2>Learning <em>in practice.</em></h2>
-          <div className="award-row"><span>DATE</span><div><h3>Certification or workshop title</h3><p>Issuing organization and a short description go here.</p></div></div>
-          <div className="award-row"><span>DATE</span><div><h3>Training or laboratory workshop</h3><p>Issuing organization and a short description go here.</p></div></div>
+        <section className="content-section awards" id="visits">
+          <p className="section-label">INDUSTRIAL VISITS &amp; EXPOSURE</p>
+          <h2>Industry <em>exposure.</em></h2>
+          <div className="award-row">
+            <span>JUN 2026</span>
+            <div>
+              <h3>Field visit to Ansell Lanka (PVT) Ltd</h3>
+              <p>Objective: Observed the procedure of making gloves using synthetic polymers.</p>
+              <div className="image-placeholder-grid project-image-grid visit-grid">
+                {([
+                  { src: "/visit1.1.jpeg", alt: "Ansell Lanka Field Visit 1" },
+                  { src: "/visit1.2.jpeg", alt: "Ansell Lanka Field Visit 2" },
+                  { src: "/visit1.3.jpeg", alt: "Ansell Lanka Field Visit 3" },
+                  { src: "/visit 1.4.jpeg", alt: "Ansell Lanka Field Visit 4" }
+                ] as {src: string, alt: string}[]).map((image, i) => (
+                  <button className="gallery-image-button" type="button" key={i} onClick={() => setSelectedImage(image)} aria-label={`View ${image.alt} full size`}>
+                    <Image src={image.src} alt={image.alt} fill sizes="(max-width: 600px) 100vw, 25vw" />
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+          <div className="award-row">
+            <span>MAY 2026</span>
+            <div>
+              <h3>Field visit 2.0 - Industrial microbiology</h3>
+              <p>Lion Brewery(Ceylon)PLC — Observed the raw materials and process of making alcoholic beverages and the fermentation process.</p>
+              <div className="image-placeholder-grid project-image-grid visit-grid">
+                {([
+                  { src: "/lion-brewery-1.jpg", alt: "Lion Brewery Visit 1" },
+                  { src: "/lion-brewery-2.jpg", alt: "Lion Brewery Visit 2" },
+                  { src: "/lion-brewery-3.jpg", alt: "Lion Brewery Visit 3" }
+                ] as {src: string, alt: string}[]).map((image, i) => (
+                  <button className="gallery-image-button" type="button" key={i} onClick={() => setSelectedImage(image)} aria-label={`View ${image.alt} full size`}>
+                    <Image src={image.src} alt={image.alt} fill sizes="(max-width: 600px) 100vw, 25vw" />
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
         </section>
       </div>
 
       <footer className="site-footer"><span>Aveesha Keshani.</span><span>© 2026</span></footer>
+
+      {selectedImage && (
+        <div className="lightbox" role="dialog" aria-modal="true" aria-label="Full-size project image" onClick={() => setSelectedImage(null)}>
+          <button className="lightbox-close" type="button" onClick={() => setSelectedImage(null)} aria-label="Close full-size image">×</button>
+          <Image className="lightbox-image" src={selectedImage.src} alt={selectedImage.alt} width={1600} height={1200} onClick={(event) => event.stopPropagation()} />
+        </div>
+      )}
     </main>
   );
 }
